@@ -54,6 +54,12 @@ async function run() {
           // get auth user id
           const token = context.req.get('Authorization').replace('Bearer ', '')
           const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string }
+          
+          // check permission
+          // const isValid = await graphcool.checkPermission(`{ SomeUserExists(filter: { id: "${userId}" }) }`)
+          // if (!isValid) {
+          //   throw new Error('User unauthenticated')
+          // }
 
           return mergeInfo.delegate('query', 'User', { id: userId }, context, info)
         },
